@@ -3,8 +3,9 @@ const router = express.Router();
 const Libro = require("../models/libro");
 const Autor = require("../models/autor");
 const Genero = require("../models/genero");
+const tokenAuthentication = require('../middleware/auth')
 
-router.get("/", async (req, res) => {
+router.get("/", tokenAuthentication, async (req, res) => {
   try {
     const libros = await Libro.findAll({
       include: [
@@ -27,7 +28,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", tokenAuthentication, async (req, res) => {
   try {
     const { id } = req.params;
     const libro = await Libro.findOne({
@@ -52,7 +53,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/autor/:id_autor", async (req, res) => {
+router.get("/autor/:id_autor", tokenAuthentication, async (req, res) => {
   try {
     const { id_autor } =  req.params;
     const libros = await Libro.findAll({
@@ -68,7 +69,7 @@ router.get("/autor/:id_autor", async (req, res) => {
   }
 });
 
-router.get("/genero/:id_genero", async (req, res) => {
+router.get("/genero/:id_genero", tokenAuthentication, async (req, res) => {
   try {
     const { id_genero } =  req.params;
     const libros = await Libro.findAll({
@@ -84,7 +85,7 @@ router.get("/genero/:id_genero", async (req, res) => {
   }
 });
 
-router.post("/",async (req, res) =>{
+router.post("/", tokenAuthentication, async (req, res) =>{
     try {
         const { titulo, editorial, id_autor, id_genero } = req.body;
         const autor = await Autor.findByPk(id_autor);
@@ -101,7 +102,7 @@ router.post("/",async (req, res) =>{
     }
 });
 
-router.put("/:id",async (req, res) =>{
+router.put("/:id", tokenAuthentication, async (req, res) =>{
     try {
         const { id } = req.params;
         const libro = await Libro.findByPk(id);
@@ -124,7 +125,7 @@ router.put("/:id",async (req, res) =>{
     }
 });
 
-router.delete("/:id",async (req, res) =>{
+router.delete("/:id", tokenAuthentication, async (req, res) =>{
     try {
         const { id } = req.params;
         const libro = await Libro.findByPk(id);

@@ -3,6 +3,7 @@ const { sequelize } = require("./models/database");
 require("./models/autor");
 require("./models/genero");
 require("./models/libro");
+require("./models/usuario")
 
 const iniciar = async () =>{
     try {

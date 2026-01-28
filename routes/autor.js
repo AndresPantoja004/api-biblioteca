@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Autor = require("../models/autor");
+const tokenAuthentication = require('../middleware/auth')
 
 //Para obtener todos los autores
-router.get("/", async (req,res)=>{
+router.get("/",tokenAuthentication, async (req,res)=>{
     try {
         const autores = await Autor.findAll();
         res.json(autores);
@@ -28,7 +29,7 @@ router.get("/:id", async (req,res)=>{
     }
 });
 
-router.post("/",async (req, res) =>{
+router.post("/",tokenAuthentication, async (req, res) =>{
     try {
         const { nombre, nacionalidad } = req.body;
         const autor = await Autor.create({nombre, nacionalidad});
@@ -39,7 +40,7 @@ router.post("/",async (req, res) =>{
     }
 });
 
-router.put("/:id",async (req, res) =>{
+router.put("/:id",tokenAuthentication, async (req, res) =>{
     try {
         const { id } = req.params;
         const autor = await Autor.findByPk(id);
@@ -52,7 +53,7 @@ router.put("/:id",async (req, res) =>{
     }
 });
 
-router.delete("/:id",async (req, res) =>{
+router.delete("/:id",tokenAuthentication, async (req, res) =>{
     try {
         const { id } = req.params;
         const autor = await Autor.findByPk(id);
